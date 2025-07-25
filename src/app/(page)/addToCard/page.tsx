@@ -2,7 +2,6 @@
 
 import CheckoutSummary from "@/components/CheckoutSummary";
 import { useCart } from "@/context/contextPage";
-import { ProductTypes } from "@/types/types";
 import { DeleteForever } from "@mui/icons-material";
 import {
   Box,
@@ -17,13 +16,14 @@ import {
   Grid,
 } from "@mui/material";
 import { useState } from "react";
+import { ProductType } from "@/types/types";
 
 const AddToCard = () => {
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
   const { getLocal, setCartItems, setCount } = useCart();
 
   const items = getLocal();
-  let jsonCart: ProductTypes[] = items ? JSON.parse(items) : [];
+  let jsonCart: ProductType[] = items ? JSON.parse(items) : [];
 
   const handleQuantityChange = (id: number, change: number) => {
     setQuantities((prev) => ({
@@ -33,7 +33,7 @@ const AddToCard = () => {
   };
 
   const handleCartRemove = (id: number) => {
-    const updated = jsonCart.filter((item) => item.id !== id);
+    const updated: ProductType[] = jsonCart.filter((item) => item.id !== id);
     jsonCart = updated;
     if (updated.length === 0) {
       localStorage.removeItem("cart");
